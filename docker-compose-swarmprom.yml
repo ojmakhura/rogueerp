@@ -89,8 +89,8 @@ services:
           memory: 64M
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - traefik.http.routers.swarmprom-grafana-http.rule=Host(`grafana.opqa.bocra.org.bw`)
         - traefik.http.routers.swarmprom-grafana-http.entrypoints=${WEB_ENTRY}
         - traefik.http.routers.swarmprom-grafana-http.middlewares=https-redirect
@@ -130,8 +130,8 @@ services:
           memory: 64M
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - traefik.http.routers.swarmprom-alertmanager-http.rule=Host(`alertmanager.${DOMAIN?Variable not set}`)
         - traefik.http.routers.swarmprom-alertmanager-http.entrypoints=${WEB_ENTRY}
         - traefik.http.routers.swarmprom-alertmanager-http.middlewares=https-redirect
@@ -158,8 +158,8 @@ services:
       replicas: 1
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - traefik.http.routers.swarmprom-unsee-http.rule=Host(`unsee.${DOMAIN?Variable not set}`)
         - traefik.http.routers.swarmprom-unsee-http.entrypoints=${WEB_ENTRY}
         - traefik.http.routers.swarmprom-unsee-http.middlewares=https-redirect
@@ -227,8 +227,8 @@ services:
           memory: 128M
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - traefik.http.routers.swarmprom-prometheus-http.rule=Host(`prometheus.${DOMAIN?Variable not set}`)
         - traefik.http.routers.swarmprom-prometheus-http.entrypoints=${WEB_ENTRY}
         - traefik.http.routers.swarmprom-prometheus-http.middlewares=https-redirect

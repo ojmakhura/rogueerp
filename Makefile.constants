@@ -4,15 +4,16 @@ DEV_DOMAIN=erptest.roguesystems.co.bw
 LIVE_DOMAIN=roguesystems.co.bw
 STACK_NAME=rogueerp
 
-LOCAL_ACME_EMAIL=makhuraoj@ub.ac.bw
-DEV_ACME_EMAIL=makhuraoj@ub.ac.bw
-TEST_ACME_EMAIL=makhuraoj@ub.ac.bw
+LOCAL_ACME_EMAIL=admin@roguesystems.co.bw
+DEV_ACME_EMAIL=admin@roguesystems.co.bw
+TEST_ACME_EMAIL=admin@roguesystems.co.bw
 LIVE_ACME_EMAIL=admin@roguesystems.co.bw
 
-VERSION=0.8.4
+VERSION=0.0.1
 IMAGE_VERSION=${VERSION}
 
-ROGUE_ERP_DATA=/rogue/erp
+LOCAL_ROGUE_ERP_DATA=/home/junior/rogue/erp
+ERP_DATA=/rogue/erp
 SECURE_ROUTER_ENTRY=websecure
 INSECURE_ROUTER_ENTRY=web
 
@@ -22,9 +23,9 @@ LIVE_REDIRECT_URI=https://roguesystems.co.bw
 ACME_STORAGE=${ROGUE_ERP_DATA}/traefik/acme.json
 
 # Traefik
-TRAEFIK_PUBLIC_NETWORK=traefik-public
+TRAEFIK_PUBLIC_NETWORK=rogueerp-public
 TRAEFIK_TAG=roguesystems.co.bw
-TRAEFIK_PUBLIC_TAG=traefik-public
+TRAEFIK_PUBLIC_TAG=rogueerp-public
 TRAEFIK_USER=admin
 TRAEFIK_PASSWORD=traefik1
 TRAEFIK_USERNAME=molaodi

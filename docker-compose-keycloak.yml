@@ -32,17 +32,17 @@ services:
       KC_HOSTNAME_STRICT_HTTPS: "false"
       TZ: Africa/Gaborone
     networks:
-      traefik-public:
+      rogueerp-public:
     deploy:
       placement:
         constraints:
           # Make the traefik service run only on the node with this label
           # as the node with it has the volume for the certificates
-          - node.labels.bocraportal_keycloak == true
+          - node.labels.rogueerp_keycloak == true
       labels:
         - "traefik.enable=true"
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
         - "traefik.http.routers.keycloak.entrypoints=${ACTIVE_ROUTER_ENTRY}"
         - "traefik.http.routers.keycloak.rule=Host(`${KEYCLOAK_DOMAIN}`)"

@@ -18,11 +18,11 @@ services:
         constraints:
           # Make the traefik service run only on the node with this label
           # as the node with it has the volume for the certificates
-          - node.labels.bocraportal_registry == true
+          - node.labels.rogueerp_registry == true
       labels:
         - "traefik.enable=true"
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - "traefik.http.routers.registry.entrypoints=${ACTIVE_ROUTER_ENTRY}"
         - "traefik.http.routers.registry.rule=Host(`${REGISTRY_DOMAIN}`)"
         - "traefik.http.routers.registry.tls=${SSL_SECURE}"

@@ -9,46 +9,56 @@ gen_self_certs:
 ##
 up_full_app: up_proxy up_db
 
-up_db:
+up_db: gen_env
 	chmod 755 .env && . ./.env && docker stack deploy -c docker-compose-db.yml ${STACK_NAME}-db
 
-down_db:
-	docker stack rm ${STACK_NAME}-db
+down_db: gen_env
+	chmod 755 .env && . ./.env && docker stack rm ${STACK_NAME}-db
 
-up_keycloak: build_keycloak_image
+up_keycloak: build_keycloak_image gen_env
 	chmod 755 .env && . ./.env && docker stack deploy -c docker-compose-keycloak.yml ${STACK_NAME}-keycloak
 
-down_keycloak:
-	docker stack rm ${STACK_NAME}-keycloak
+down_keycloak: gen_env
+	chmod 755 .env && . ./.env && docker stack rm ${STACK_NAME}-keycloak
 
-up_proxy: 
+up_proxy: gen_env 
 	chmod 755 .env && . ./.env && docker stack deploy -c docker-compose-traefik.yml ${STACK_NAME}-proxy
 
-down_proxy:
-	docker stack rm ${STACK_NAME}-proxy
+down_proxy: gen_env
+	chmod 755 .env && . ./.env && docker stack rm ${STACK_NAME}-proxy
 
+up_service: gen_env
+	chmod 755 .env && . ./.env && docker stack deploy -c docker-compose-${service}.yml ${STACK_NAME}-${service}
+
+##
+## Build docker containers
+##
+build_image: gen_env
+	. ./.env && docker compose -f docker-compose-${stack}.yml build
 
 ##
 ## System initialisation
 ##
+swarm_label_true:
+	chmod 755 .env && . ./.env && docker node update --label-add ${STACK_NAME}_${node_label}=true ${node}
+
 swarm_init:
 	docker swarm init
 
-rpgueerp_network:
+rogueerp_network:
 	docker network create --driver overlay rogueerp-public
 
-local_prep: gen_env
-	. ./.env && mkdir ${ROGUE_ERP_DATA}
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/db
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/auth
-	. ./.env && cp traefik_passwd ${ROGUE_ERP_DATA}/auth/system_passwd
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/keycloak
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/certs
-	. ./.env && cp deployment/certs/* ${ROGUE_ERP_DATA}/certs
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/registry
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/traefik
-	. ./.env && cp deployment/traefik/config.yml ${ROGUE_ERP_DATA}/traefik
-	. ./.env && mkdir ${ROGUE_ERP_DATA}/web
+mount_prep: gen_env
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA} && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/db && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/auth && \
+	chmod 755 .env && . ./.env && cp deployment/traefik_passwd ${ROGUE_ERP_DATA}/auth/system_passwd && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/keycloak && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/certs && \
+	chmod 755 .env && . ./.env && cp deployment/certs/* ${ROGUE_ERP_DATA}/certs && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/registry && \
+	chmod 755 .env && . ./.env && mkdir -p ${ROGUE_ERP_DATA}/traefik && \
+	chmod 755 .env && . ./.env && cp deployment/traefik/config.yml ${ROGUE_ERP_DATA}/traefik
 
 ##
 ## Environment management

@@ -19,6 +19,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -71,21 +72,19 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         http.cors().configurationSource(corsConfigurationSource())
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeRequests()
-            .mvcMatchers(
-                "/swagger-ui/*", 
-                "/swagger-ui.html", 
-                "/webjars/**", 
-                "/v3/**", 
-                "/swagger-resources/**",
-                "/auth/signin",
-                "/sector/all",
-                "/licensee/search",
-                "/complaint",
-                "/complaint/**",
-                "/actuator/health"
-            ).permitAll()
-            .anyRequest().authenticated();
+            .and().authorizeHttpRequests(request -> {
+                request.requestMatchers(
+                    "/swagger-ui/*", 
+                        "/swagger-ui.html", 
+                        "/webjars/**", 
+                        "/v3/**", 
+                        "/swagger-resources/**",
+                        "/actuator/health"
+                    )
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated();
+            });
     }
 
     @Bean
@@ -135,5 +134,17 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     @Bean
     public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
         return new KeycloakSpringBootConfigResolver();
+    }
+
+    @Override
+    public void init(WebSecurity builder) throws Exception {
+        // TODO Auto-generated method stub
+        builder.build();
+    }
+
+    @Override
+    public void configure(WebSecurity builder) throws Exception {
+        // TODO Auto-generated method stub
+        builder.build();
     }
 }

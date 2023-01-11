@@ -29,7 +29,7 @@ services:
       - ${ROGUE_ERP_DATA}/portainer:/data
     networks:
       - agent-network
-      - traefik-public
+      - rogueerp-public
       #- bocraswarm
     deploy:
       mode: global
@@ -37,11 +37,11 @@ services:
         constraints:
           #- node.role == manager
           #- node.labels.prim1 == true
-          - node.labels.bocraportal_portainer == true
+          - node.labels.rogueerp_portainer == true
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik-public
-        - traefik.constraint-label=traefik-public
+        - traefik.docker.network=rogueerp-public
+        - traefik.constraint-label=rogueerp-public
         - traefik.http.routers.portainer-https.rule=Host(`${PORTAINER_DOMAIN}`)
         - traefik.http.routers.portainer-https.entrypoints=${ACTIVE_ROUTER_ENTRY}
         - traefik.http.routers.portainer-https.tls=${SSL_SECURE}
